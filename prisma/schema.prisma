@@ -1,0 +1,78 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Teacher {
+  id            String   @id @default(uuid())
+  session_id    String?
+  teacher_name  String
+  email         String   @unique
+  phone         String?
+  school        String?
+  subject       String?
+  password_hash String
+  courses       Course[]
+
+  @@map("teachers")
+}
+
+model Course {
+  id          String    @id @default(uuid())
+  course_name String
+  code        String    @unique
+  Teacher     Teacher   @relation(fields: [teacher_id], references: [id])
+  teacher_id  String
+  students    Student[]
+  created_at  DateTime? @default(now())
+
+  @@map("courses")
+}
+
+model Student {
+  id            String   @id @default(uuid())
+  session_id    String?
+  student_name  String
+  user_cfg      String?
+  email         String   @unique
+  password_hash String
+  save          Save?
+  courses       Course[]
+
+  @@map("students")
+}
+
+model Save {
+  id                String  @id @default(uuid())
+  player_level      Int     @default(1)
+  experience        Int     @default(0)
+  total_time_played Int     @default(0)
+  tracks            Track[]
+  current_track     String?
+  game_save         String?
+  student           Student @relation(fields: student_id, references: id)
+  student_id        String  @unique
+
+  @@map("saves")
+}
+
+model Track {
+  id                 String  @id @default(uuid())
+  track_reference_id String
+  name               String?
+  description        String?
+  time_played        Int     @default(0)
+  completion_rate    Int     @default(0)
+  Save               Save?   @relation(fields: [saveId], references: [id])
+  saveId             String?
+}
