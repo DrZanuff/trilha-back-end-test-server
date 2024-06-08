@@ -26,7 +26,11 @@ export class PrismaStudentRepository implements IStudentRepository {
         },
       },
       include: {
-        save: true,
+        save: {
+          include: {
+            tracks: true,
+          },
+        },
       },
     })
 
@@ -48,6 +52,19 @@ export class PrismaStudentRepository implements IStudentRepository {
       where: {
         id,
       },
+      include: {
+        save: {
+          select: {
+            current_track: true,
+            experience: true,
+            id: true,
+            player_level: true,
+            total_time_played: true,
+            game_save: false,
+            tracks: true,
+          },
+        },
+      },
     })
 
     return student || null
@@ -62,7 +79,11 @@ export class PrismaStudentRepository implements IStudentRepository {
         session_id: randomUUID(),
       },
       include: {
-        save: true,
+        save: {
+          include: {
+            tracks: true,
+          },
+        },
       },
     })
 

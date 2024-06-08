@@ -41,4 +41,11 @@ export interface ICourseRepository {
     student_id: string
     course_id: string
   }): Promise<boolean>
+  unenrollStudent({
+    student_id,
+    course_id,
+  }: {
+    student_id: string
+    course_id: string
+  }): Promise<boolean>
 }

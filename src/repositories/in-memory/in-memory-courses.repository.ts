@@ -189,4 +189,56 @@ export class InMemoryCourseRepository implements ICourseRepository {
 
     return true
   }
+
+  async unenrollStudent({
+    student_id,
+    course_id,
+  }: {
+    student_id: string
+    course_id: string
+  }) {
+    const student = this.students.find((item) => item.id === student_id)
+
+    if (!student) {
+      return false
+    }
+
+    let courseIndex: number | undefined = -1
+
+    const teacherIndex = this.teachers.findIndex((teacher) => {
+      courseIndex = teacher.courses?.findIndex(
+        (course) => course.id === course_id
+      )
+
+      return Number(courseIndex) >= 0
+    })
+
+    if (courseIndex === -1 || teacherIndex === -1) {
+      return false
+    }
+
+    const courses = this.teachers[teacherIndex].courses
+
+    if (!courses) {
+      return false
+    }
+
+    const course = courses[courseIndex]
+
+    if (!course) {
+      return false
+    }
+
+    const studentIndex = course.students.findIndex(
+      (studentItem) => studentItem.id === student.id
+    )
+
+    if (studentIndex === -1) {
+      return false
+    }
+
+    course.students.splice(studentIndex, 1)
+
+    return true
+  }
 }

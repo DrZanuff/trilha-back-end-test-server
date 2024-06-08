@@ -123,6 +123,8 @@ export class PrismaCourseRepository implements ICourseRepository {
                 id: true,
                 player_level: true,
                 total_time_played: true,
+                tracks: true,
+                game_save: false,
               },
             },
           },
@@ -179,6 +181,52 @@ export class PrismaCourseRepository implements ICourseRepository {
         },
       },
     })
+
+    return true
+  }
+
+  async unenrollStudent({
+    student_id,
+    course_id,
+  }: {
+    student_id: string
+    course_id: string
+  }) {
+    const student = await prisma.student.findUnique({
+      where: {
+        id: student_id,
+      },
+      include: { courses: true },
+    })
+
+    if (!student) {
+      return false
+    }
+
+    const course = await prisma.course.findUnique({
+      where: { id: course_id },
+    })
+
+    if (!course) {
+      return false
+    }
+
+    const isUnenrollmentSuccessful = await prisma.student.update({
+      where: {
+        id: student_id,
+      },
+      data: {
+        courses: {
+          disconnect: {
+            id: course_id,
+          },
+        },
+      },
+    })
+
+    if (!isUnenrollmentSuccessful) {
+      return false
+    }
 
     return true
   }

@@ -1,4 +1,4 @@
-import { FastifyInstance, FastifyRequest } from 'fastify'
+import { FastifyInstance, FastifyReply, FastifyRequest } from 'fastify'
 import {
   registerTeacherController,
   AuthenticateTeacherController,
@@ -14,9 +14,12 @@ import {
   restoreStudentSaveController,
   updateStudentSaveController,
   getStudentByCourseController,
+  UnenrollStudentFromCourseController,
+  getStudentByIDController,
 } from '@/http/controllers'
 import { checkSessionIdExists } from '@/midlewares/check-session-id-exists'
 import { checkApiKey } from '@/midlewares/check-api-key'
+import { CURRENT_VERSION } from '@/constants/version'
 
 export async function appRoutes(app: FastifyInstance) {
   app.addHook('preHandler', async (request: FastifyRequest) => {
@@ -90,6 +93,16 @@ export async function appRoutes(app: FastifyInstance) {
     { preHandler: [checkApiKey, checkSessionIdExists] },
     LogoutStudentController
   )
+  app.patch(
+    '/sudent/unenroll',
+    { preHandler: [checkApiKey, checkSessionIdExists] },
+    UnenrollStudentFromCourseController
+  )
+  app.post(
+    '/student',
+    { preHandler: [checkApiKey, checkSessionIdExists] },
+    getStudentByIDController
+  )
 
   app.post(
     '/save/restore',
@@ -102,4 +115,12 @@ export async function appRoutes(app: FastifyInstance) {
     { preHandler: [checkApiKey] },
     updateStudentSaveController
   )
+
+  app.get('/status', (_: FastifyRequest, reply: FastifyReply) => {
+    reply
+      .status(200)
+      .send(
+        `Server Trilhas do Conhecimento status: ON. Version:${CURRENT_VERSION} `
+      )
+  })
 }

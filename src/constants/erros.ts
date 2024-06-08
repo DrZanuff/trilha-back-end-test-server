@@ -15,6 +15,7 @@ export const ERROR_LIST = {
     NOT_FOUND: 'Course not found.',
     NON_EXISTENT: `This course don't exist for this teacher.`,
     INVALID_PARAMETERS: 'Wrong or missing parameters to retrieve a course.',
+    UNENROLLMENT_FAILED: 'Failed to unenroll the student.',
   },
   UNKNOWN_ERROR: 'Something went wrong...',
 }

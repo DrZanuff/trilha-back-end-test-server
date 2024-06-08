@@ -2,9 +2,9 @@ import { ERROR_LIST } from '@/constants/erros'
 import { FastifyReply, FastifyRequest } from 'fastify'
 import { z } from 'zod'
 import get from 'lodash/get'
-import { makeGetSudentByCourseUserCase } from '@/use-cases/get-student-by-course/make-get-student-by-course-use-case'
+import { makeGetSudentByIDUserCase } from '@/use-cases/get-student-by-id/make-get-student-by-course-id-case'
 
-export async function getStudentByCourseController(
+export async function getStudentByIDController(
   request: FastifyRequest,
   reply: FastifyReply
 ) {
@@ -15,15 +15,24 @@ export async function getStudentByCourseController(
   const { student_id } = getStudentByCourseBodySchema.parse(request.body)
 
   try {
-    const getStudentByCourse = makeGetSudentByCourseUserCase()
+    const getStudentByID = makeGetSudentByIDUserCase()
 
-    const { student, save } = await getStudentByCourse.execute({
+    const { student } = await getStudentByID.execute({
       student_id,
     })
 
+    const {
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      password_hash,
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      user_cfg,
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      session_id,
+      ...studentWithoutPersonalData
+    } = student
+
     return reply.status(200).send({
-      student,
-      save,
+      student: studentWithoutPersonalData,
     })
   } catch (err) {
     const errorMessage = get(err, 'message')

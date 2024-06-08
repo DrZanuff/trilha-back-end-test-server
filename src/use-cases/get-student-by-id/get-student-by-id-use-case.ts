@@ -1,7 +1,7 @@
 import { ERROR_LIST } from '@/constants/erros'
 import { IStudentRepository } from '@/repositories/students.repository.types'
 
-export class GetStudentByCourseUseCase {
+export class GetStudentByIDUseCase {
   constructor(private studentRepository: IStudentRepository) {}
 
   async execute({ student_id }: { student_id: string }) {
@@ -13,10 +13,6 @@ export class GetStudentByCourseUseCase {
       throw new Error(ERROR_LIST.STUDENT.NOT_FOUND)
     }
 
-    const save = await this.studentRepository.findUniqueSave({
-      student_id,
-    })
-
-    return { student, save }
+    return { student }
   }
 }

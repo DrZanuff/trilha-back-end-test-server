@@ -2,11 +2,30 @@ import { Prisma, Student, Track } from '@prisma/client'
 
 type StudentType = Prisma.StudentGetPayload<{
   include: {
-    save: true
-  }
-  select: {
     save: {
-      include: {
+      select: {
+        current_track: true
+        experience: true
+        game_save: true
+        id: true
+        player_level: true
+        total_time_played: true
+        tracks: true
+      }
+    }
+  }
+}>
+
+type StudentWithouGameSaveFileType = Prisma.StudentGetPayload<{
+  include: {
+    save: {
+      select: {
+        current_track: true
+        experience: true
+        game_save: false
+        id: true
+        player_level: true
+        total_time_played: true
         tracks: true
       }
     }
@@ -32,7 +51,11 @@ export type TUpdateSaveProps = {
 export interface IStudentRepository {
   create(data: Prisma.StudentCreateInput): Promise<StudentType>
   findByUniqueEmail({ email }: { email: string }): Promise<Student | null>
-  findByUniqueID({ id }: { id: string }): Promise<Student | null>
+  findByUniqueID({
+    id,
+  }: {
+    id: string
+  }): Promise<StudentWithouGameSaveFileType | null>
   updateSessionID({ id }: { id: string }): Promise<StudentType | null>
   endSessionID({ id }: { id: string }): Promise<void | null>
   updateSave({

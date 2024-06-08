@@ -20,5 +20,11 @@ Para fazer uma nova migration no projeto
 
 Para realizar um teste especifico
 `npm run test --path/to/test.spec.ts`
-Example:
+Examplo:
 `npm run test --back-end/src/helpers/seconds-to-time/seconds-to-time.spec.ts`
+
+Para expor o servidor local para acesso remoto, instale o ngrok e rode:
+`ngrok http http://localhost:PORT`
+Sendo que PORT é o mesmo valor de PORT do arquivo .env
+Exemplo:
+`ngrok http http://localhost:3333`
