@@ -127,11 +127,13 @@ export class PrismaStudentRepository implements IStudentRepository {
     time_played,
     saveFileBase64,
     current_track_name,
+    current_track_id,
   }: {
     student_id: string
     saveFileBase64?: string
     time_played: number
     current_track_name?: string
+    current_track_id?: string
   }) {
     const student = await prisma.student.findUnique({
       where: { id: student_id },
@@ -159,6 +161,7 @@ export class PrismaStudentRepository implements IStudentRepository {
         game_save: saveFileBase64,
         total_time_played: save.total_time_played + time_played,
         current_track: current_track_name,
+        current_track_id,
       },
       include: {
         tracks: true,

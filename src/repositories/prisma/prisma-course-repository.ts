@@ -119,6 +119,7 @@ export class PrismaCourseRepository implements ICourseRepository {
             save: {
               select: {
                 current_track: true,
+                current_track_id: true,
                 experience: true,
                 id: true,
                 player_level: true,

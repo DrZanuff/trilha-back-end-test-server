@@ -52,6 +52,7 @@ export class UpdateStudentSaveUseCase {
       saveFileBase64,
       time_played: currentSave.total_time_played + time_elapsed,
       current_track_name: track_name,
+      current_track_id: track_reference_id,
     })
 
     return { save: updatedSave }

@@ -65,6 +65,7 @@ export class InMemoryStudentRepository implements IStudentRepository {
         student_id,
         total_time_played: 0,
         current_track: null,
+        current_track_id: null,
         game_save: null,
         tracks: [],
       },
@@ -127,11 +128,13 @@ export class InMemoryStudentRepository implements IStudentRepository {
     saveFileBase64,
     time_played,
     current_track_name,
+    current_track_id,
   }: {
     student_id: string
     saveFileBase64?: string
     time_played: number
     current_track_name?: string
+    current_track_id?: string
   }) {
     const saveData = this.helpers.findSave({ student_id })
 
@@ -152,6 +155,7 @@ export class InMemoryStudentRepository implements IStudentRepository {
     }
     save.total_time_played = time_played
     save.current_track = current_track_name || save.current_track
+    save.current_track_id = current_track_id || save.current_track_id
 
     student.save = save
     this.students.splice(studentIndex, 1, student)

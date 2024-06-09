@@ -63,11 +63,13 @@ export interface IStudentRepository {
     saveFileBase64,
     time_played,
     current_track_name,
+    current_track_id,
   }: {
     student_id: string
     saveFileBase64?: string
     time_played: number
     current_track_name?: string
+    current_track_id?: string
   }): Promise<SaveWithTracks | null>
   findUniqueSave({
     student_id,

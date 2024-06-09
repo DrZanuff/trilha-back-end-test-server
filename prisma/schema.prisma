@@ -59,6 +59,7 @@ model Save {
   total_time_played Int     @default(0)
   tracks            Track[]
   current_track     String?
+  current_track_id  String?
   game_save         String?
   student           Student @relation(fields: student_id, references: id)
   student_id        String  @unique
