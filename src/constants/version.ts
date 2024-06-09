@@ -1,1 +1,1 @@
-export const CURRENT_VERSION = 0.81
+export const CURRENT_VERSION = 0.82

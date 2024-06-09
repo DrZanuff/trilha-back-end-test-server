@@ -247,7 +247,8 @@ export class PrismaStudentRepository implements IStudentRepository {
       },
       create: {
         track_reference_id,
-        completion_rate: 0,
+        completion_rate,
+        time_played,
         description: track_description,
         name: track_name,
         Save: {
