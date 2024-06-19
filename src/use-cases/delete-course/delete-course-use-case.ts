@@ -2,7 +2,7 @@ import { ERROR_LIST } from '@/constants/erros'
 import { ICourseRepository } from '@/repositories/courses.repository.types'
 import { ITeacherRepository } from '@/repositories/teachers.repository.types'
 
-export class EditCourseUseCase {
+export class DeleteCourseUseCase {
   constructor(
     private courseRepository: ICourseRepository,
     private teacherRepository: ITeacherRepository
@@ -11,13 +11,9 @@ export class EditCourseUseCase {
   async execute({
     teacher_id,
     course_id,
-    course_name,
-    generateNewCode,
   }: {
     teacher_id: string
     course_id: string
-    course_name?: string
-    generateNewCode?: boolean
   }) {
     const teacher = await this.teacherRepository.findByUniqueID({
       id: teacher_id,
@@ -27,17 +23,15 @@ export class EditCourseUseCase {
       throw new Error(ERROR_LIST.TEACHER.NOT_FOUND)
     }
 
-    const course = await this.courseRepository.editCourse({
+    const isSuccessfullyDeleted = await this.courseRepository.deleteCourse({
       teacher_id,
-      course_name,
       course_id,
-      generateNewCode,
     })
 
-    if (!course) {
+    if (!isSuccessfullyDeleted) {
       throw new Error(ERROR_LIST.COURSE.NOT_FOUND)
     }
 
-    return { course }
+    return true
   }
 }

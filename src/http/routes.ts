@@ -16,6 +16,7 @@ import {
   getStudentByCourseController,
   UnenrollStudentFromCourseController,
   getStudentByIDController,
+  deleteCourseController,
 } from '@/http/controllers'
 import { checkSessionIdExists } from '@/midlewares/check-session-id-exists'
 import { checkApiKey } from '@/midlewares/check-api-key'
@@ -64,6 +65,12 @@ export async function appRoutes(app: FastifyInstance) {
     '/course/edit',
     { preHandler: [checkApiKey, checkSessionIdExists] },
     editCourseController
+  )
+
+  app.delete(
+    '/course/delete',
+    { preHandler: [checkApiKey, checkSessionIdExists] },
+    deleteCourseController
   )
 
   app.post(

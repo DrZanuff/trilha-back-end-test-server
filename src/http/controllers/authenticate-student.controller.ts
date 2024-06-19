@@ -32,6 +32,14 @@ export async function AuthenticateStudentController(
       })
     }
 
+    const tracks = student.save?.tracks.map((track) => {
+      const timePlayed = Number(track.time_played)
+      return {
+        ...track,
+        time_played: timePlayed,
+      }
+    })
+
     return reply.status(200).send({
       student: {
         email: student.email,
@@ -39,7 +47,11 @@ export async function AuthenticateStudentController(
         id: student.id,
         session_id: student.session_id,
         course: student.course,
-        save: student.save,
+        save: {
+          ...student.save,
+          total_time_played: Number(student.save?.total_time_played),
+          tracks,
+        },
       },
     })
   } catch (err) {

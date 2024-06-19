@@ -40,7 +40,8 @@ export class UpdateStudentSaveUseCase {
     await this.studentRepository.updateOrCreateTrack({
       completion_rate,
       student_id,
-      time_played: (currentTrack?.time_played || 0) + time_elapsed,
+      time_played:
+        BigInt(currentTrack?.time_played || 0) + BigInt(time_elapsed),
       track_name,
       track_reference_id,
       track_id: currentTrack?.id || '',

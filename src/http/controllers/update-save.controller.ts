@@ -34,7 +34,7 @@ export async function updateStudentSaveController(
     const { save } = await updateStudentSave.execute({
       completion_rate,
       student_id,
-      time_elapsed,
+      time_elapsed: BigInt(time_elapsed),
       saveFileBase64,
       track_reference_id,
       track_description,
@@ -45,8 +45,25 @@ export async function updateStudentSaveController(
       throw new Error(ERROR_LIST.STUDENT.SAVE_NOT_FOUND)
     }
 
+    const parsedTracks = save.tracks.map((track) => {
+      // [ ] - TODO convert to helper functions
+      const timePlayed = Number(track.time_played)
+      return {
+        ...track,
+        time_played: timePlayed,
+      }
+    })
+
+    const totalTimePlayed = Number(save.total_time_played)
+    // [ ] - TODO convert to helper functions
+    const parsedSave = {
+      ...save,
+      tracks: parsedTracks,
+      total_time_played: totalTimePlayed,
+    }
+
     return reply.status(200).send({
-      save,
+      save: parsedSave,
     })
   } catch (err) {
     const errorMessage = get(err, 'message')

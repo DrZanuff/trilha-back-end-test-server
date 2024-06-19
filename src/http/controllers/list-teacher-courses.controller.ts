@@ -19,7 +19,33 @@ export async function listTeacherCoursesController(
 
     const { courses } = await listTeacherCourses.execute({ teacher_id })
 
-    return reply.status(200).send({ courses })
+    const parsedCourses = courses.map((course) => {
+      // [ ] - TODO - convert to helper functions
+      const parsedStudents = course.students?.map((student) => {
+        const parsedTracks = student.save?.tracks.map((track) => {
+          return {
+            ...track,
+            time_played: Number(track.time_played),
+          }
+        })
+
+        return {
+          ...student,
+          save: {
+            ...student.save,
+            total_time_played: Number(student.save?.total_time_played),
+            tracks: parsedTracks,
+          },
+        }
+      })
+
+      return {
+        ...course,
+        students: parsedStudents,
+      }
+    })
+
+    return reply.status(200).send({ courses: parsedCourses })
   } catch (err) {
     const errorMessage = get(err, 'message')
     return reply

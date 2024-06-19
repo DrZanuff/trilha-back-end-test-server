@@ -37,6 +37,40 @@ export class PrismaCourseRepository implements ICourseRepository {
     return course
   }
 
+  async deleteCourse({
+    teacher_id,
+    course_id,
+  }: {
+    teacher_id: string
+    course_id: string
+  }) {
+    const teacher = await prisma.teacher.findUnique({
+      where: {
+        id: teacher_id,
+      },
+      include: {
+        courses: true,
+      },
+    })
+
+    if (!teacher) {
+      return null
+    }
+
+    const deletedCourse = await prisma.course.delete({
+      where: {
+        id: course_id,
+        teacher_id,
+      },
+    })
+
+    if (!deletedCourse) {
+      return null
+    }
+
+    return true
+  }
+
   async editCourse({
     teacher_id,
     course_id,

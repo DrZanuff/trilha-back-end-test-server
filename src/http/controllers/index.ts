@@ -6,6 +6,7 @@ export { listTeacherStudentsController } from './list-teacher-students.controlle
 
 export { createCourseController } from './create-course.controller'
 export { editCourseController } from './edit-course.controller'
+export { deleteCourseController } from './delete-course.controller'
 export { getCourseController } from './get-course.controller'
 
 export { restoreStudentSaveController } from './restore-save.controller'

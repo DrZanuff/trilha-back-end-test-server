@@ -56,6 +56,41 @@ export class InMemoryCourseRepository implements ICourseRepository {
     return course
   }
 
+  async deleteCourse({
+    teacher_id,
+    course_id,
+  }: {
+    teacher_id: string
+    course_id: string
+  }) {
+    let teacherIndex = -1
+    let courseIndex = -1
+
+    if (this.teachers.findIndex((item) => item.id === teacher_id) < 0) {
+      return null
+    }
+
+    this.teachers.forEach((item, t_index) => {
+      item.courses?.forEach((courseItem, c_index) => {
+        if (
+          courseItem.id === course_id &&
+          courseItem.teacher_id === teacher_id
+        ) {
+          teacherIndex = t_index
+          courseIndex = c_index
+        }
+      })
+    })
+
+    if (courseIndex === -1) {
+      return null
+    }
+
+    this.teachers[teacherIndex].courses?.splice(courseIndex, 1)
+
+    return true
+  }
+
   async editCourse({
     teacher_id,
     course_id,

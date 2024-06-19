@@ -56,7 +56,7 @@ model Save {
   id                String  @id @default(uuid())
   player_level      Int     @default(1)
   experience        Int     @default(0)
-  total_time_played Int     @default(0)
+  total_time_played BigInt  @default(0)
   tracks            Track[]
   current_track     String?
   current_track_id  String?
@@ -72,7 +72,7 @@ model Track {
   track_reference_id String
   name               String?
   description        String?
-  time_played        Int     @default(0)
+  time_played        BigInt  @default(0)
   completion_rate    Int     @default(0)
   Save               Save?   @relation(fields: [saveId], references: [id])
   saveId             String?

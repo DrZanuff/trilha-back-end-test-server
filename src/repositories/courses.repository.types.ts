@@ -1,11 +1,26 @@
-import { Course, Student } from '@prisma/client'
+import { Prisma, Course } from '@prisma/client'
 
-type StudentWithBasicData = Omit<
-  Student,
-  'password_hash' | 'session_id' | 'user_cfg' | 'courses' | 'saves'
->
+type StudentWithSave = Prisma.StudentGetPayload<{
+  select: {
+    id: true
+    email: true
+    student_name: true
+    save: {
+      select: {
+        id: true
+        current_track: true
+        current_track_id: true
+        experience: true
+        player_level: true
+        total_time_played: true
+        tracks: true
+      }
+    }
+  }
+}>
+
 interface CourseWithStudents extends Course {
-  students?: StudentWithBasicData[]
+  students?: StudentWithSave[]
 }
 
 export interface ICourseRepository {
@@ -27,8 +42,15 @@ export interface ICourseRepository {
     course_name?: string
     generateNewCode?: boolean
   }): Promise<Course | null>
+  deleteCourse({
+    teacher_id,
+    course_id,
+  }: {
+    teacher_id: string
+    course_id: string
+  }): Promise<boolean | null>
   findCourseByCode({ code }: { code: string }): Promise<Course | null>
-  findCourseByID({ id }: { id: string }): Promise<Course | null>
+  findCourseByID({ id }: { id: string }): Promise<CourseWithStudents | null>
   findManyCoursesByTeacherID({
     id,
   }: {

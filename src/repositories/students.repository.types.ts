@@ -41,7 +41,7 @@ type SaveWithTracks = Prisma.SaveGetPayload<{
 export type TUpdateSaveProps = {
   student_id: string
   saveFileBase64?: string
-  time_elapsed: number
+  time_elapsed: bigint
   track_reference_id: string
   track_name?: string
   track_description?: string
@@ -67,7 +67,7 @@ export interface IStudentRepository {
   }: {
     student_id: string
     saveFileBase64?: string
-    time_played: number
+    time_played: bigint
     current_track_name?: string
     current_track_id?: string
   }): Promise<SaveWithTracks | null>
@@ -98,6 +98,6 @@ export interface IStudentRepository {
     track_description?: string
     track_name?: string
     student_id: string
-    time_played: number
+    time_played: bigint
   }): Promise<Track | null>
 }

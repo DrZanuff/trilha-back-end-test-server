@@ -24,7 +24,31 @@ export async function getCourseController(
 
     const { course } = await getCourse.execute({ course_id, teacher_id })
 
-    return reply.status(200).send({ course })
+    // [ ] - TODO - create helper function
+    const parsedStudents = course.students?.map((student) => {
+      const parsedTracks = student.save?.tracks.map((track) => {
+        return {
+          ...track,
+          time_played: Number(track.time_played),
+        }
+      })
+
+      return {
+        ...student,
+        save: {
+          ...student.save,
+          total_time_played: Number(student.save?.total_time_played),
+          tracks: parsedTracks,
+        },
+      }
+    })
+
+    const parsedCourse = {
+      ...course,
+      students: parsedStudents,
+    }
+
+    return reply.status(200).send({ course: parsedCourse })
   } catch (err) {
     const errorMessage = get(err, 'message')
     if (errorMessage === ERROR_LIST.COURSE.NOT_FOUND) {

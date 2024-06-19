@@ -131,7 +131,7 @@ export class PrismaStudentRepository implements IStudentRepository {
   }: {
     student_id: string
     saveFileBase64?: string
-    time_played: number
+    time_played: bigint
     current_track_name?: string
     current_track_id?: string
   }) {
@@ -159,7 +159,7 @@ export class PrismaStudentRepository implements IStudentRepository {
       },
       data: {
         game_save: saveFileBase64,
-        total_time_played: save.total_time_played + time_played,
+        total_time_played: save.total_time_played + BigInt(time_played),
         current_track: current_track_name,
         current_track_id,
       },
@@ -220,7 +220,7 @@ export class PrismaStudentRepository implements IStudentRepository {
     track_description?: string | undefined
     track_name?: string | undefined
     student_id: string
-    time_played: number
+    time_played: bigint
   }) {
     const student = await prisma.student.findUnique({
       where: {

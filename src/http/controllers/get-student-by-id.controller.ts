@@ -31,8 +31,30 @@ export async function getStudentByIDController(
       ...studentWithoutPersonalData
     } = student
 
+    const parsedTracks = studentWithoutPersonalData.save?.tracks.map(
+      (track) => {
+        return {
+          ...track,
+          time_played: Number(track.time_played),
+        }
+      }
+    )
+
+    const parsedSave = {
+      ...studentWithoutPersonalData.save,
+      tracks: parsedTracks,
+      total_time_played: Number(
+        studentWithoutPersonalData.save?.total_time_played
+      ),
+    }
+
+    const parsedStudent = {
+      ...studentWithoutPersonalData,
+      save: parsedSave,
+    }
+
     return reply.status(200).send({
-      student: studentWithoutPersonalData,
+      student: parsedStudent,
     })
   } catch (err) {
     const errorMessage = get(err, 'message')
