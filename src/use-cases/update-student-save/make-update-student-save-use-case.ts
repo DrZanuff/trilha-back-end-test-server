@@ -1,8 +1,8 @@
-import { PrismaStudentRepository } from '@/repositories/prisma/prisma-student-repository'
 import { UpdateStudentSaveUseCase } from './update-student-save'
+import { getStudentRepository } from '../helpers/get-student-repository'
 
 export function makeUpdateStudentSaveUserCase() {
-  const studentRepository = new PrismaStudentRepository()
+  const studentRepository = getStudentRepository()
   const updateStudentSave = new UpdateStudentSaveUseCase(studentRepository)
 
   return updateStudentSave

@@ -1,9 +1,8 @@
-// import { PrismaTeacherRepository } from '@/repositories/prisma/prisma-teachers-repository'
-import { PrismaCourseRepository } from '@/repositories/prisma/prisma-course-repository'
 import { ListTeacherStudentsUseCase } from './list-teacher-students-use-case'
+import { getCourseRepository } from '../helpers/get-course-repository'
 
 export function makeListTeacherStudentsUserCase() {
-  const courseRepository = new PrismaCourseRepository()
+  const courseRepository = getCourseRepository()
   const listTeacherStudents = new ListTeacherStudentsUseCase(courseRepository)
 
   return listTeacherStudents

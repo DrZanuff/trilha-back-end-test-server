@@ -1,8 +1,8 @@
-import { PrismaStudentRepository } from '@/repositories/prisma/prisma-student-repository'
 import { GetStudentByCourseUseCase } from './get-student-by-course-use-case'
+import { getStudentRepository } from '../helpers/get-student-repository'
 
 export function makeGetSudentByCourseUserCase() {
-  const studentRepository = new PrismaStudentRepository()
+  const studentRepository = getStudentRepository()
   const getStudentByCourse = new GetStudentByCourseUseCase(studentRepository)
 
   return getStudentByCourse

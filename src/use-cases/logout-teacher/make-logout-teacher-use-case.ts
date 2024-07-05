@@ -1,8 +1,8 @@
-import { PrismaTeacherRepository } from '@/repositories/prisma/prisma-teachers-repository'
 import { LogoutTeacherUserCase } from './logout-teacher-use-case'
+import { getTeacherRepository } from '../helpers/get-teacher-repository'
 
 export function makeLogoutTeacherUserCase() {
-  const teacherRepository = new PrismaTeacherRepository()
+  const teacherRepository = getTeacherRepository()
   const logoutTeacher = new LogoutTeacherUserCase(teacherRepository)
 
   return logoutTeacher

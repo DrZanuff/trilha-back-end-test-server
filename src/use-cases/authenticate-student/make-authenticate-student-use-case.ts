@@ -1,10 +1,10 @@
-import { PrismaStudentRepository } from '@/repositories/prisma/prisma-student-repository'
-import { PrismaCourseRepository } from '@/repositories/prisma/prisma-course-repository'
 import { AuthenticateStudentUseCase } from './authenticate-student-use-case'
+import { getStudentRepository } from '../helpers/get-student-repository'
+import { getCourseRepository } from '../helpers/get-course-repository'
 
 export function makeAuthenticateStudentUserCase() {
-  const studentRepository = new PrismaStudentRepository()
-  const courseRepository = new PrismaCourseRepository()
+  const studentRepository = getStudentRepository()
+  const courseRepository = getCourseRepository()
   const authenticateStudent = new AuthenticateStudentUseCase(
     studentRepository,
     courseRepository

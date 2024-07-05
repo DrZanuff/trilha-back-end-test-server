@@ -1,8 +1,8 @@
-import { PrismaStudentRepository } from '@/repositories/prisma/prisma-student-repository'
 import { LogoutStudentUserCase } from './logout-student-use-case'
+import { getStudentRepository } from '../helpers/get-student-repository'
 
 export function makeLogoutStudentUserCase() {
-  const studentRepository = new PrismaStudentRepository()
+  const studentRepository = getStudentRepository()
   const logoutStudent = new LogoutStudentUserCase(studentRepository)
 
   return logoutStudent

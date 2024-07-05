@@ -6,6 +6,9 @@ const envSchema = z.object({
   PORT: z.coerce.number().default(3333),
   API_KEY: z.string(),
   ALLOWED_DOMAIN: z.string(),
+  DATABASE_URL: z.string(),
+  DATA_BASE_TYPE: z.enum(['PRISMA', 'SUPABASE']).default('PRISMA'),
+  SUPABASE_KEY: z.string().optional(),
 })
 
 const _env = envSchema.safeParse(process.env)

@@ -1,8 +1,8 @@
-import { PrismaTeacherRepository } from '@/repositories/prisma/prisma-teachers-repository'
 import { AuthenticateTeacherUseCase } from './authenticate-teacher-use-case'
+import { getTeacherRepository } from '../helpers/get-teacher-repository'
 
 export function makeAuthenticateTeacherUserCase() {
-  const teacherRepository = new PrismaTeacherRepository()
+  const teacherRepository = getTeacherRepository()
   const authenticateTeacher = new AuthenticateTeacherUseCase(teacherRepository)
 
   return authenticateTeacher

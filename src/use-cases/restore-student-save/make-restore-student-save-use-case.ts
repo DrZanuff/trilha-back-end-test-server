@@ -1,14 +1,9 @@
-import { PrismaStudentRepository } from '@/repositories/prisma/prisma-student-repository'
-import { PrismaCourseRepository } from '@/repositories/prisma/prisma-course-repository'
 import { RestoreStudentSaveUseCase } from './restore-student-save'
+import { getStudentRepository } from '../helpers/get-student-repository'
 
 export function makeRestoreStudentSaveUserCase() {
-  const studentRepository = new PrismaStudentRepository()
-  const courseRepository = new PrismaCourseRepository()
-  const restoreStudentSave = new RestoreStudentSaveUseCase(
-    studentRepository,
-    courseRepository
-  )
+  const studentRepository = getStudentRepository()
+  const restoreStudentSave = new RestoreStudentSaveUseCase(studentRepository)
 
   return restoreStudentSave
 }

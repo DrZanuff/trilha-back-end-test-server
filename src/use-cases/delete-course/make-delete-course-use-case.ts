@@ -1,10 +1,10 @@
-import { PrismaTeacherRepository } from '@/repositories/prisma/prisma-teachers-repository'
-import { PrismaCourseRepository } from '@/repositories/prisma/prisma-course-repository'
 import { DeleteCourseUseCase } from './delete-course-use-case'
+import { getCourseRepository } from '../helpers/get-course-repository'
+import { getTeacherRepository } from '../helpers/get-teacher-repository'
 
 export function makeDeleteCourseUserCase() {
-  const courseRepository = new PrismaCourseRepository()
-  const teacherRepository = new PrismaTeacherRepository()
+  const courseRepository = getCourseRepository()
+  const teacherRepository = getTeacherRepository()
   const deleteCourse = new DeleteCourseUseCase(
     courseRepository,
     teacherRepository
