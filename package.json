@@ -10,6 +10,8 @@
     "dev": "tsx watch src/server.ts",
     "start": "node build/server.js",
     "build": "tsup src --out-dir build",
+    "deploy:supabase": "npm ci && npm run build",
+    "deploy:prisma": "npm ci && npm run build && npx prisma migrate deploy",
     "test": "vitest run",
     "test:watch": "vitest",
     "test:coverage": "vitest run --coverage",

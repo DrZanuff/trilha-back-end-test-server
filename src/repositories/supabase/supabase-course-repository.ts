@@ -1,4 +1,3 @@
-import { prisma } from '@/lib/prisma'
 import { supabase } from '@/lib/supabase'
 import { ICourseRepository } from '@/repositories/courses.repository.types'
 import { generateCourseCode } from '@/helpers/generate-course-code'
