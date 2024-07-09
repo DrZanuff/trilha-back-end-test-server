@@ -49,6 +49,7 @@ export async function AuthenticateStudentController(
         course: student.course,
         save: {
           ...student.save,
+          student_id: student.id,
           total_time_played: Number(student.save?.total_time_played),
           tracks,
         },
