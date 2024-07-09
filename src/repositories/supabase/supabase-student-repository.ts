@@ -116,6 +116,7 @@ export class SupabaseStudentRepository implements IStudentRepository {
             current_track,
             current_track_id,
             game_save,
+            student_id,
             tracks(*)
           )
         `
